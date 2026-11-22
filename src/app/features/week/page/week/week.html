@@ -1,0 +1,81 @@
+<div class="page-head">
+  <div>
+    <p class="eyebrow">مساحة صغيرة للتعلّم</p>
+    <h1>فكرة واحدة. تطبيق. مراجعة.</h1>
+    <p class="subtitle">سجّلي ناوية تذاكري إيه، وبعدها اكتبي وصلتي لفين.</p>
+  </div>
+  <app-shared-button route="/sessions/new" icon="fa-plus">جلسة جديدة</app-shared-button>
+</div>
+@if (store.error()) {
+  <app-state-message [error]="true" title="مش قادرين نوصل لبياناتك" [message]="store.error()"
+    ><app-shared-button (click)="store.load()">إعادة المحاولة</app-shared-button></app-state-message
+  >
+} @else if (store.loading()) {
+  <app-state-message title="بنحمّل الخطة…" message="لحظات وتظهر جلساتك." />
+} @else {
+  <div class="stats">
+    <div>
+      <span>جلسات الأسبوع</span><strong>{{ weekSessions().length }}</strong>
+    </div>
+    <div>
+      <span>جلسات مكتملة</span><strong>{{ done() }}</strong>
+    </div>
+    <div>
+      <span>نقاط للمراجعة</span><strong>{{ review() }}</strong>
+    </div>
+  </div>
+  <div class="week-toolbar">
+    <div class="d-flex gap-2 align-items-center">
+      <button class="icon-btn" (click)="changeWeek(-1)" aria-label="الأسبوع السابق">
+        <i class="fa-solid fa-chevron-right"></i></button
+      ><strong>{{ days()[0] | date: 'd/M' }} – {{ days()[6] | date: 'd/M/yyyy' }}</strong
+      ><button class="icon-btn" (click)="changeWeek(1)" aria-label="الأسبوع التالي">
+        <i class="fa-solid fa-chevron-left"></i></button
+      ><button class="text-btn" (click)="today()">الأسبوع الحالي</button>
+    </div>
+    <div class="filters" aria-label="حالة الجلسة">
+      <button [class.selected]="status() === 'all'" (click)="status.set('all')">الكل</button
+      ><button [class.selected]="status() === 'planned'" (click)="status.set('planned')">
+        مخططة</button
+      ><button [class.selected]="status() === 'completed'" (click)="status.set('completed')">
+        مكتملة
+      </button>
+    </div>
+  </div>
+  <div class="search">
+    <app-shared-input
+      label="بحث عن جلسة أو موضوع"
+      [control]="search"
+      (input)="query.set(search.value)"
+    />
+  </div>
+  @if (!store.sessions().length) {
+    <app-state-message title="نبدأ بحاجة صغيرة؟" message="أضيفي موضوعًا واحدًا، وبعده وقت للمذاكرة."
+      ><app-shared-button route="/topics">إضافة موضوع</app-shared-button></app-state-message
+    >
+  } @else {
+    <div class="week-grid">
+      @for (day of days(); track day.toISOString()) {
+        <section class="day">
+          <div class="day-head">
+            <strong>{{ day | date: 'EEEE' : '' : 'ar' }}</strong
+            ><span>{{ day | date: 'd/M' }}</span>
+          </div>
+          @for (session of sessionsFor(day); track session.id) {
+            <app-session-card [session]="session" [topic]="topic(session.topicId)" />
+          } @empty {
+            <p class="no-session">مساحة فاضية<br />خديها على مهلك</p>
+          }
+        </section>
+      }
+    </div>
+  }
+  <div class="learning-note">
+    <i class="fa-regular fa-lightbulb" aria-hidden="true"></i>
+    <div>
+      <strong>مش سباق، ومش درجة.</strong>
+      <p>الأعداد دي للي سجلتيه بنفسك، مش تقييم لفهمك أو قدراتك.</p>
+    </div>
+    <a routerLink="/review">دفتر المراجعة <i class="fa-solid fa-arrow-left"></i></a>
+  </div>
+}

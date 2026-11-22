@@ -1,0 +1,21 @@
+.check-row {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 6px 0 22px;
+}
+aside p {
+  line-height: 1.9;
+}
+.muted {
+  font-size: 13px;
+  color: #857466;
+}
+.delete {
+  background: none;
+  border: 1px solid #d2b8b3;
+  color: #9a463e;
+  border-radius: 8px;
+  padding: 10px 16px;
+  min-height: 44px;
+}

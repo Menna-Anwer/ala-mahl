@@ -1,0 +1,18 @@
+<a class="session-card" [routerLink]="['/sessions', session.id]" [appSessionState]="session.status"
+  ><div class="d-flex justify-content-between align-items-center gap-2">
+    <span class="status">{{ session.status | sessionStatus }}</span
+    ><i
+      class="fa-solid"
+      [class]="
+        session.status === 'completed' ? 'fa-solid fa-circle-check' : 'fa-solid fa-book-open'
+      "
+      aria-hidden="true"
+    ></i>
+  </div>
+  <h3>{{ session.title }}</h3>
+  <p>{{ topic }}</p>
+  <div class="meta">{{ session.minutes | studyDuration }} · {{ session.kind }}</div>
+  @if (session.needsReview) {
+    <div class="review"><i class="fa-solid fa-rotate" aria-hidden="true"></i> تحتاج مراجعة</div>
+  }
+</a>

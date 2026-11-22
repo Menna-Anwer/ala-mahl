@@ -1,0 +1,16 @@
+<ng-template #label><ng-content /></ng-template>
+@if (route) {
+  <a mat-flat-button [routerLink]="route" [queryParams]="queryParams" [class.secondary]="secondary">
+    @if (icon) {
+      <i [class]="'fa-solid ' + icon" aria-hidden="true"></i>
+    }
+    <ng-container [ngTemplateOutlet]="label"
+  /></a>
+} @else {
+  <button mat-flat-button [type]="type" [disabled]="disabled" [class.secondary]="secondary">
+    @if (icon) {
+      <i [class]="'fa-solid ' + icon" aria-hidden="true"></i>
+    }
+    <ng-container [ngTemplateOutlet]="label" />
+  </button>
+}

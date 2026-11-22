@@ -1,0 +1,63 @@
+<a routerLink="/week" class="back-link">← رجوع للأسبوع</a>
+@if (store.error()) {
+  <app-state-message [error]="true" title="تعذّر التحميل" [message]="store.error()"
+    ><app-shared-button (click)="store.load()">إعادة المحاولة</app-shared-button></app-state-message
+  >
+} @else if (session(); as s) {
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">{{ topic() }} · {{ s.date }} · {{ s.minutes | studyDuration }}</p>
+      <h1>{{ s.title }}</h1>
+      <p class="subtitle">{{ s.task || 'خدي خطوة صغيرة، وسجّلي اللي وصلتي له.' }}</p>
+    </div>
+    <app-shared-button [route]="['/sessions', s.id, 'edit']" [secondary]="true" icon="fa-pen"
+      >تعديل الجلسة</app-shared-button
+    >
+  </div>
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <app-shared-card title="دفتر الفهم"
+        ><form [formGroup]="form" (ngSubmit)="save()">
+          <app-shared-textarea
+            label="إيه اللي فهمته؟"
+            [control]="form.controls.understood"
+            fieldId="session-understood"
+          /><app-shared-textarea
+            label="إيه السؤال اللي لسه عندي؟"
+            [control]="form.controls.question"
+            fieldId="session-question"
+          />
+          <div class="check-row">
+            <app-shared-checkbox
+              [control]="form.controls.completed"
+              label="الجلسة مكتملة"
+            /><app-shared-checkbox
+              [control]="form.controls.needsReview"
+              label="محتاجة أرجع للنقطة دي"
+            />
+          </div>
+          @if (message()) {
+            <p class="feedback" role="status">{{ message() }}</p>
+          }
+          <app-shared-button type="submit" [disabled]="store.saving()">{{
+            store.saving() ? 'بيتحفظ…' : 'حفظ الملخص'
+          }}</app-shared-button>
+        </form></app-shared-card
+      >
+    </div>
+    <aside class="col-lg-4">
+      <app-shared-card title="الفهم أهم من العلامة"
+        ><p>إنتِ اللي بتحددي الجلسة خلصت ولا لسه. علامة «مكتملة» مش معناها إنك أتقنتِ الموضوع.</p>
+        <p>لو فيه سؤال، اكتبيه وحددي إنه للمراجعة. هتلاقيه في صفحة المراجعة.</p>
+        <a routerLink="/review" class="back-link">فتح المراجعة ←</a>
+        <hr />
+        <button class="delete" [disabled]="store.saving()" (click)="remove()">
+          <i class="fa-regular fa-trash-can"></i> حذف الجلسة
+        </button>
+        <p class="muted">الحذف بيشيل الجلسة وملاحظاتها، ولازم تأكيد.</p></app-shared-card
+      >
+    </aside>
+  </div>
+} @else if (!store.loading()) {
+  <app-state-message title="الجلسة مش موجودة" message="ممكن تكون اتحذفت. ارجعي للأسبوع." />
+}

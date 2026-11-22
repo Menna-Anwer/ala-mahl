@@ -1,0 +1,76 @@
+{
+  "topics": [
+    {
+      "id": "t1",
+      "title": "Angular Forms",
+      "goal": "أبني فورم وأفهم رسائل الخطأ.",
+      "archived": false
+    },
+    {
+      "id": "t2",
+      "title": "مراجعة TypeScript",
+      "goal": "أشرح الأنواع بمثال بسيط.",
+      "archived": false
+    },
+    {
+      "id": "t3",
+      "title": "قراءة كود",
+      "goal": "أتتبع خطوة بخطوة.",
+      "archived": false
+    }
+  ],
+  "sessions": [
+    {
+      "id": "s1",
+      "topicId": "t3",
+      "title": "قراءة كود بسيط",
+      "date": "2026-11-21",
+      "minutes": 25,
+      "kind": "قراءة",
+      "task": "أجرب مثالًا صغيرًا وأشرح النتيجة بكلامي.",
+      "status": "completed",
+      "understood": "كتبت شرح الفكرة بكلامي.",
+      "question": "",
+      "needsReview": false
+    },
+    {
+      "id": "s2",
+      "topicId": "t1",
+      "title": "بناء فورم",
+      "date": "2026-11-22",
+      "minutes": 30,
+      "kind": "تطبيق",
+      "task": "أجرب مثالًا صغيرًا وأشرح النتيجة بكلامي.",
+      "status": "planned",
+      "understood": "",
+      "question": "",
+      "needsReview": false
+    },
+    {
+      "id": "s3",
+      "topicId": "t1",
+      "title": "تتبّع خطأ",
+      "date": "2026-11-23",
+      "minutes": 20,
+      "kind": "مراجعة",
+      "task": "أجرب مثالًا صغيرًا وأشرح النتيجة بكلامي.",
+      "status": "completed",
+      "understood": "كتبت شرح الفكرة بكلامي.",
+      "question": "إزاي أمنع إرسال الفورم لو البيانات ناقصة؟",
+      "needsReview": true
+    },
+    {
+      "id": "s4",
+      "topicId": "t2",
+      "title": "تعديل بإيدي",
+      "date": "2026-11-24",
+      "minutes": 25,
+      "kind": "تطبيق",
+      "task": "أجرب مثالًا صغيرًا وأشرح النتيجة بكلامي.",
+      "status": "planned",
+      "understood": "",
+      "question": "",
+      "needsReview": false
+    }
+  ]
+}

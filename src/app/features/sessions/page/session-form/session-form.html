@@ -1,0 +1,89 @@
+<div class="page-head">
+  <div>
+    <a routerLink="/week" class="back-link">← رجوع للأسبوع</a>
+    <h1>{{ id ? 'تعديل الجلسة' : 'وقت لحاجة صغيرة' }}</h1>
+    <p class="subtitle">الجلسة هنا وقت للمذاكرة، مش اجتماع مع حد.</p>
+  </div>
+</div>
+@if (store.error()) {
+  <app-state-message [error]="true" title="تعذّر تحميل البيانات" [message]="store.error()"
+    ><app-shared-button (click)="store.load()">إعادة المحاولة</app-shared-button></app-state-message
+  >
+} @else if (missing) {
+  <app-state-message title="الجلسة مش موجودة" message="ممكن تكون اتحذفت. ارجعي للأسبوع." />
+} @else if (!store.topics().length && !store.loading()) {
+  <app-state-message
+    title="نبدأ بموضوع الأول"
+    message="مثلاً: Angular Forms. بعدها نضيف وقت للمذاكرة."
+    ><app-shared-button route="/topics">الموضوعات</app-shared-button></app-state-message
+  >
+} @else {
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <app-shared-card title="تفاصيل الجلسة"
+        ><form [formGroup]="form" (ngSubmit)="save()">
+          <app-shared-input
+            label="هتذاكري إيه؟"
+            [control]="form.controls.title"
+            fieldId="session-title"
+            placeholder="مثلاً: تجربة رسائل الخطأ في الفورم"
+          /><app-shared-select
+            label="الموضوع"
+            [control]="form.controls.topicId"
+            [options]="options()"
+            fieldId="session-topic"
+          />
+          <div class="row">
+            <div class="col-sm-6">
+              <app-shared-input
+                label="اليوم"
+                type="date"
+                [control]="form.controls.date"
+                fieldId="session-date"
+              />
+            </div>
+            <div class="col-sm-6">
+              <app-shared-input
+                label="المدة بالدقائق"
+                type="number"
+                [min]="5"
+                [max]="480"
+                [control]="form.controls.minutes"
+                fieldId="session-minutes"
+              />
+            </div>
+          </div>
+          <app-shared-select
+            label="نوع الجلسة"
+            [control]="form.controls.kind"
+            [options]="kinds"
+            fieldId="session-kind"
+          /><app-shared-textarea
+            label="إيه المطلوب أعمله؟ (اختياري)"
+            [control]="form.controls.task"
+            fieldId="session-task"
+          />
+          @if (message()) {
+            <p role="alert" class="error-message">{{ message() }}</p>
+          }
+          <div class="d-flex flex-wrap gap-2">
+            <app-shared-button
+              type="submit"
+              [disabled]="store.saving() || store.loading()"
+              icon="fa-check"
+              >{{ store.saving() ? 'بيتحفظ…' : 'حفظ الجلسة' }}</app-shared-button
+            ><app-shared-button route="/week" [secondary]="true">إلغاء</app-shared-button>
+          </div>
+        </form></app-shared-card
+      >
+    </div>
+    <aside class="col-lg-4">
+      <app-shared-card title="مثال بسيط"
+        ><i class="fa-solid fa-mug-hot illustration" aria-hidden="true"></i>
+        <p>«هقعد نص ساعة أجرب أعمل فورم، وأشوف الحقول الفاضية بتعمل إيه.»</p>
+        <p class="muted">ده كفاية كهدف لجلسة واحدة. تقدري تغيري اليوم أو المدة بعدين.</p>
+        <div class="callout">المدة للتخطيط، مفيش مؤقّت أو تقييم تلقائي.</div></app-shared-card
+      >
+    </aside>
+  </div>
+}

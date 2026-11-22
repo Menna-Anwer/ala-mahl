@@ -1,0 +1,61 @@
+<div class="page-head">
+  <div>
+    <p class="eyebrow">نرجع للنقطة اللي وقفتنا</p>
+    <h1>دفتر المراجعة</h1>
+    <p class="subtitle">الأسئلة اللي اخترتِ ترجعي لها. من غير ضغط ولا درجات.</p>
+  </div>
+  <i class="fa-solid fa-book-open-reader hero-icon" aria-hidden="true"></i>
+</div>
+<div class="d-flex gap-2 mb-4">
+  <app-shared-button [secondary]="mode() !== 'pending'" (click)="mode.set('pending')"
+    >تحتاج مراجعة</app-shared-button
+  ><app-shared-button [secondary]="mode() !== 'reviewed'" (click)="mode.set('reviewed')"
+    >تمت مراجعتها</app-shared-button
+  >
+</div>
+@if (message()) {
+  <p class="feedback" role="status">{{ message() }}</p>
+}
+@if (store.error()) {
+  <app-state-message [error]="true" title="تعذّر تحميل المراجعة" [message]="store.error()"
+    ><app-shared-button (click)="store.load()">إعادة المحاولة</app-shared-button></app-state-message
+  >
+} @else if (store.loading()) {
+  <app-state-message title="بنحمّل الملاحظات…" />
+} @else {
+  <div class="row g-4">
+    @for (session of items(); track session.id) {
+      <div class="col-md-6">
+        <app-shared-card [title]="session.title"
+          ><span class="topic">{{ topic(session.topicId) }}</span>
+          <p class="question">
+            {{
+              session.question ||
+                'لسه مفيش سؤال مكتوب. افتحي الجلسة واكتبي النقطة اللي عايزة ترجعي لها.'
+            }}
+          </p>
+          <p class="understood">{{ session.understood }}</p>
+          <div class="d-flex flex-wrap gap-2">
+            <app-shared-button [route]="['/sessions', session.id]" [secondary]="true"
+              >فتح الملاحظة</app-shared-button
+            >
+            @if (mode() === 'pending') {
+              <app-shared-button
+                [disabled]="store.saving()"
+                (click)="done(session.id)"
+                icon="fa-check"
+                >تمت المراجعة</app-shared-button
+              >
+            }
+          </div></app-shared-card
+        >
+      </div>
+    } @empty {
+      <app-state-message
+        [title]="mode() === 'pending' ? 'مفيش نقاط معلّقة دلوقتي' : 'لسه مفيش نقاط تمت مراجعتها'"
+        message="أي جلسة تعلّمي عليها للمراجعة هتظهر هنا. الملاحظات القديمة بتفضل جوه جلساتها."
+        ><app-shared-button route="/week">رجوع للأسبوع</app-shared-button></app-state-message
+      >
+    }
+  </div>
+}

@@ -1,0 +1,120 @@
+<div class="page-head">
+  <div>
+    <p class="eyebrow">كل فكرة في مكانها</p>
+    <h1>الموضوعات</h1>
+    <p class="subtitle">حاجة حابة تتعلميها، وهدف صغير يوضّح البداية.</p>
+  </div>
+  <app-shared-button icon="fa-plus" (click)="open()">موضوع جديد</app-shared-button>
+</div>
+@if (message()) {
+  <p class="feedback" role="status">{{ message() }}</p>
+}
+@if (store.error()) {
+  <app-state-message [error]="true" title="تعذّر تحميل الموضوعات" [message]="store.error()"
+    ><app-shared-button (click)="store.load()">إعادة المحاولة</app-shared-button></app-state-message
+  >
+} @else {
+  @if (formOpen()) {
+    <app-shared-card [title]="editing() ? 'تعديل الموضوع' : 'موضوع جديد'"
+      ><form [formGroup]="form" (ngSubmit)="save()">
+        <div class="row">
+          <div class="col-md-5">
+            <app-shared-input
+              label="اسم الموضوع"
+              [control]="form.controls.title"
+              fieldId="topic-title"
+            />
+          </div>
+          <div class="col-md-7">
+            <app-shared-textarea
+              label="عايزة أوصل لإيه؟ (اختياري)"
+              [control]="form.controls.goal"
+              fieldId="topic-goal"
+            />
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <app-shared-button type="submit" [disabled]="store.saving()">{{
+            store.saving() ? 'بيتحفظ…' : 'حفظ الموضوع'
+          }}</app-shared-button
+          ><app-shared-button [secondary]="true" (click)="formOpen.set(false)"
+            >إلغاء</app-shared-button
+          >
+        </div>
+      </form></app-shared-card
+    >
+  }
+  <div class="row g-4 mt-1">
+    <div class="col-lg-5">
+      <app-shared-card title="قائمة الموضوعات"
+        ><div class="d-flex gap-2 mb-3">
+          <button class="filter" [class.selected]="!archived()" (click)="archived.set(false)">
+            نشطة</button
+          ><button class="filter" [class.selected]="archived()" (click)="archived.set(true)">
+            مؤرشفة
+          </button>
+        </div>
+        <app-shared-input
+          label="ابحثي عن موضوع"
+          [control]="searchControl"
+          fieldId="topic-search"
+          (input)="search.set(searchControl.value)"
+        />
+        @for (topic of filtered(); track topic.id) {
+          <button
+            class="topic-row"
+            [class.chosen]="selected() === topic.id"
+            (click)="selected.set(topic.id)"
+          >
+            <span
+              ><strong>{{ topic.title }}</strong
+              ><small>{{ sessions(topic.id).length }} جلسات</small></span
+            ><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          </button>
+        } @empty {
+          <p class="muted py-4">مفيش موضوعات هنا لسه. أضيفي أول موضوع أو غيّري البحث.</p>
+        }
+      </app-shared-card>
+    </div>
+    <div class="col-lg-7">
+      @if (current(); as topic) {
+        <app-shared-card [title]="topic.title"
+          ><p class="topic-goal">{{ topic.goal || 'لسه مفيش هدف مكتوب.' }}</p>
+          @for (session of sessions(topic.id); track session.id) {
+            <a class="session-link" [routerLink]="['/sessions', session.id]"
+              ><strong>{{ session.title }}</strong
+              ><small
+                >{{ session.date }} ·
+                {{ session.status === 'completed' ? 'مكتملة' : 'مخططة' }}</small
+              ></a
+            >
+          } @empty {
+            <p class="muted">لسه مفيش جلسات للموضوع ده.</p>
+          }
+          <div class="d-flex flex-wrap gap-2 mt-4">
+            @if (!topic.archived) {
+              <app-shared-button
+                route="/sessions/new"
+                [queryParams]="{ topic: topic.id }"
+                icon="fa-plus"
+                >جلسة للموضوع</app-shared-button
+              >
+            }
+            <app-shared-button [secondary]="true" (click)="open(topic)">تعديل</app-shared-button
+            ><app-shared-button
+              [secondary]="true"
+              [disabled]="store.saving()"
+              (click)="toggle(topic)"
+              >{{ topic.archived ? 'إرجاع للنشطة' : 'أرشفة' }}</app-shared-button
+            >
+          </div>
+          <p class="muted mt-3">
+            الأرشفة مش حذف. كل الجلسات والملاحظات بتفضل محفوظة.
+          </p></app-shared-card
+        >
+      } @else {
+        <app-state-message title="اختاري موضوعًا" message="تفاصيله وجلساته هتظهر هنا." />
+      }
+    </div>
+  </div>
+}

@@ -1,0 +1,16 @@
+:host {
+  display: inline-block;
+}
+button,
+a {
+  min-height: 44px;
+  border-radius: 8px;
+  gap: 8px;
+}
+i {
+  margin-inline-end: 8px;
+}
+.secondary {
+  background: #eee9e5 !important;
+  color: #30282a !important;
+}

@@ -1,0 +1,17 @@
+<mat-form-field appearance="fill"
+  ><mat-label>{{ label }}</mat-label
+  ><input
+    matInput
+    [id]="fieldId"
+    [type]="type"
+    [placeholder]="placeholder"
+    [formControl]="control"
+    [min]="min"
+    [max]="max"
+  />
+  @if (control.invalid && control.touched) {
+    <mat-error>{{
+      control.hasError('required') ? 'الحقل ده مطلوب' : 'راجعي القيمة المدخلة'
+    }}</mat-error>
+  }
+</mat-form-field>

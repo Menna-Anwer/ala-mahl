@@ -1,0 +1,147 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: white;
+  border: 1px solid #e5ded8;
+  border-radius: 14px;
+  margin: 28px 0;
+}
+.stats div {
+  padding: 20px 24px;
+  border-inline-end: 1px solid #e5ded8;
+}
+.stats div:last-child {
+  border: 0;
+}
+.stats span {
+  font-size: 14px;
+  color: #75695f;
+}
+.stats strong {
+  display: block;
+  font-size: 30px;
+  margin-top: 5px;
+}
+.week-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.filters {
+  display: flex;
+  gap: 8px;
+}
+.filters button {
+  border: 1px solid #e3dcd5;
+  border-radius: 8px;
+  padding: 9px 15px;
+  background: white;
+  font-size: 14px;
+}
+.filters .selected {
+  border-color: #78a38f;
+  background: #edf4ef;
+  color: #37644f;
+  font-weight: 700;
+}
+.search {
+  max-width: 350px;
+}
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+.day {
+  background: #ede8e2;
+  border-radius: 12px;
+  padding: 10px;
+  min-height: 250px;
+}
+.day-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: 13px;
+  margin: 3px 0 15px;
+}
+.day-head span {
+  color: #75675d;
+}
+.day app-session-card {
+  margin-bottom: 12px;
+}
+.no-session {
+  font-size: 12px;
+  text-align: center;
+  color: #9a8b80;
+  line-height: 1.9;
+  margin-top: 30px;
+}
+.learning-note {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #e8f0e9;
+  border-radius: 12px;
+  padding: 22px;
+  margin-top: 25px;
+}
+.learning-note > i {
+  font-size: 24px;
+}
+.learning-note p {
+  font-size: 14px;
+  margin: 5px 0 0;
+}
+.learning-note a {
+  margin-inline-start: auto;
+  color: #38634f;
+  white-space: nowrap;
+  font-size: 14px;
+}
+@media (max-width: 1100px) {
+  .week-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@media (max-width: 700px) {
+  .week-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .stats div {
+    padding: 14px;
+  }
+  .stats span {
+    font-size: 12px;
+  }
+  .stats strong {
+    font-size: 25px;
+  }
+  .learning-note {
+    flex-wrap: wrap;
+  }
+  .learning-note a {
+    margin: 0;
+  }
+  .day {
+    min-height: 200px;
+  }
+}
+@media (max-width: 420px) {
+  .week-grid {
+    grid-template-columns: 1fr;
+  }
+  .day {
+    min-height: auto;
+  }
+  .no-session {
+    margin: 10px;
+  }
+  .search {
+    max-width: 100%;
+  }
+}

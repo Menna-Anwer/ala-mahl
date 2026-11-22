@@ -1,0 +1,48 @@
+.topic-row {
+  display: flex;
+  width: 100%;
+  text-align: start;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border: 0;
+  border-bottom: 1px solid #e9e3de;
+  padding: 20px 12px;
+  gap: 16px;
+  border-radius: 8px;
+}
+.topic-row small,
+.session-link small {
+  display: block;
+  font-size: 13px;
+  color: #776a60;
+  margin-top: 8px;
+}
+.chosen {
+  background: #edf4ee;
+}
+.topic-goal {
+  line-height: 1.9;
+}
+.session-link {
+  display: block;
+  padding: 20px 0;
+  border-bottom: 1px solid #eae4de;
+  text-decoration: none;
+  color: inherit;
+}
+.filter {
+  background: white;
+  border: 1px solid #ded6cc;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+.selected {
+  background: #edf4ee;
+  border-color: #78a18e;
+  color: #3d6d57;
+}
+.muted {
+  color: #75685d;
+  font-size: 14px;
+}
